@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #3e3f42;
+    --card:     #ffffff;
+    --blue:     #4f7ef8;
+    --blue2:    #ff75ff;
+    --red:      #ad11a0;
+    --border:   #e8eaf2;
+    --text:     #1a1a2e;
+    --muted:    #8890a8;
+    --green:    #34c97e;
+    --font:     'Nunito', sans-serif;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+ 
+  #setup-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: linear-gradient(135deg, #3d3d3f 0%, #650672 100%);
+  }
+
+  .setup-card {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(79,126,248,.25);
+    animation: popIn .5s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(.88) translateY(20px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .setup-emoji { font-size: 56px; margin-bottom: 16px; }
+
+  .setup-card h1 {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .setup-card p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+
+  .setup-card input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-family: var(--font);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    outline: none;
+    transition: border-color .2s;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  .setup-card input:focus { border-color: var(--blue); }
+
+  .setup-card input::placeholder { color: var(--muted); font-weight: 400; }
+
+  .btn-start {
+    width: 100%;
+    padding: 14px;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-family: var(--font);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+  }
+  .btn-start:hover  { background: var(--blue2); transform: translateY(-2px); }
+  .btn-start:active { transform: scale(.97); }
+
+  .setup-err {
+    color: var(--red);
+    font-size: 13px;
+    margin-top: 8px;
+    min-height: 18px;
+  }
+
+  
+  #profile-screen { display: none; }
+
+ 
+  .topbar {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 1px 8px rgba(0,0,0,.05);
+  }
+
+  .topbar-logo {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--blue);
+    letter-spacing: -.5px;
+  }
+
+  .topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .topbar-avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), #a78bfa);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .btn-logout {
+    padding: 6px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color .2s, color .2s;
+  }
+  .btn-logout:hover { border-color: var(--red); color: var(--red); }
+
+  
+  .layout {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 28px 16px 80px;
+  }
+
+  
+  .profile-card {
+    background: var(--card);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 20px;
+    animation: fadeUp .5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .profile-banner {
+    height: 90px;
+    background: linear-gradient(135deg, #4f7ef8, #a78bfa, #f472b6);
+  }
+
+  .profile-body {
+    padding: 0 20px 20px;
+  }
+
+  .profile-avatar-wrap {
+    margin-top: -36px;
+    margin-bottom: 10px;
+  }
+
+  .profile-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), #a78bfa);
+    border: 4px solid var(--card);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .profile-name {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 2px;
+  }
+
+  .profile-handle {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .profile-stats {
+    display: flex;
+    gap: 20px;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--blue);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-top: 2px;
+  }
+
+
+  .composer {
+    background: var(--card);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 18px;
+    margin-bottom: 20px;
+    animation: fadeUp .5s .08s ease both;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+
+  .composer-top {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .composer-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .composer textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: var(--font);
+    font-size: 15px;
+    color: var(--text);
+    background: transparent;
+    min-height: 72px;
+    line-height: 1.6;
+  }
+
+  .composer textarea::placeholder { color: var(--muted); }
+
+  .composer-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+
+  .char-count {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .char-count.warn { color: var(--red); }
+
+  .btn-post {
+    padding: 9px 22px;
+    background: var(--grey);
+    color: purple;
+    border: none;
+    border-radius: 10px;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+  }
+  .btn-post:hover   { background: var(--blue2); transform: translateY(-1px); }
+  .btn-post:active  { transform: scale(.97); }
+  .btn-post:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+  
+  .feed-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--muted);
+    background: var(--card);
+    border-radius: 20px;
+    border: 1px dashed var(--border);
+    animation: fadeUp .4s ease both;
+  }
+
+  .empty-state .emoji { font-size: 40px; margin-bottom: 10px; }
+  .empty-state p { font-size: 14px; }
+
+ 
+  .post-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 14px;
+    animation: slideIn .35s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-12px) scale(.98); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .post-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .post-meta { flex: 1; }
+  .post-username { font-size: 14px; font-weight: 800; }
+  .post-time { font-size: 12px; color: var(--muted); }
+
+  .post-menu { position: relative; }
+
+  .menu-btn {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+  }
+  .menu-btn:hover { background: var(--bg); color: var(--text); }
+
+  .dropdown {
+    position: absolute;
+    top: 36px; right: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px gray;
+    overflow: hidden;
+    z-index: 20;
+    display: none;
+    min-width: 130px;
+    animation: popIn .2s ease;
+  }
+  .dropdown.open { display: block; }
+
+  .drop-item {
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background .15s;
+  }
+  .drop-item:hover { background: var(--bg); }
+  .drop-item.danger { color: var(--red); }
+  .drop-item.danger:hover { background: rgb(59, 11, 59); }
+
+  .post-body {
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+ 
+  .edit-area {
+    width: 100%;
+    border: 2px solid var(--blue);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text);
+    resize: none;
+    outline: none;
+    margin-bottom: 10px;
+    min-height: 80px;
+  }
+
+  .edit-actions { display: flex; gap: 8px; }
+
+  .btn-save {
+    padding: 7px 16px;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .btn-save:hover { opacity: .85; }
+
+  .btn-cancel {
+    padding: 7px 16px;
+    background: var(--bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Post footer */
+  .post-footer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+
+  .like-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: background .15s, color .15s, transform .15s;
+  }
+  .like-btn:hover { background: var(--bg); color: var(--red); }
+  .like-btn.liked { color: var(--red); }
+  .like-btn.liked:hover { background: #fff0f0; }
+
+  .like-btn .heart { transition: transform .2s; }
+  .like-btn.liked .heart { animation: heartPop .3s ease; }
+
+  @keyframes heartPop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+</style>
+</head>
+
+<body>
+
+
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="setup-emoji">👤</div>
+    <h1> Your Profile</h1>
+    <p>choose Profile</p>
+    <input type="text" id="username-input" placeholder="e.g. cooluser123" maxlength="24" autocomplete="off" />
+    <div class="setup-err" id="setup-err"></div>
+    <button class="btn-start" onclick="createProfile()">continue →</button>
+  </div>
+</div>
+
+
+<div id="profile-screen">
+
+  <nav class="topbar">
+    <div class="topbar-logo">MyProfile</div>
+    <div class="topbar-user">
+      <div class="topbar-avatar" id="topbar-avatar"></div>
+      <span id="topbar-name"></span>
+      <button class="btn-logout" onclick="logout()">Log out</button>
+    </div>
+  </nav>
+
+  <div class="layout">
+
+    
+    <div class="profile-card">
+      <div class="profile-banner"></div>
+      <div class="profile-body">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar" id="profile-avatar"></div>
+        </div>
+        <div class="profile-name" id="profile-name"></div>
+        <div class="profile-handle" id="profile-handle"></div>
+        <div class="profile-stats">
+          <div class="stat">
+            <div class="stat-num" id="stat-posts">0</div>
+            <div class="stat-label">Posts</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" id="stat-likes">0</div>
+            <div class="stat-label">Likes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="composer">
+      <div class="composer-top">
+        <div class="composer-avatar" id="composer-avatar"></div>
+        <textarea id="post-input" placeholder="What's on your mind?" maxlength="280"></textarea>
+      </div>
+      <div class="composer-footer">
+        <span class="char-count" id="char-count">280 left</span>
+        <button class="btn-post" id="post-btn" onclick="submitPost()" disabled>Post</button>
+      </div>
+    </div>
+
+    <!-- Feed -->
+    <div class="feed-label">Your Posts</div>
+    <div id="feed">
+      <div class="empty-state" id="empty-state">
+        <div class="emoji">✏️</div>
+        <p>No posts yet — say something!</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="script.js"></script>
+<script>
+  let username = '';
+  let posts    = [];
+  let nextId   = 1;
+
+ 
+  function initials(name) {
+    return name.slice(0,2).toUpperCase();
+  }
+
+  function timeAgo(ts) {
+    const s = Math.floor((Date.now() - ts) / 1000);
+    if (s < 60)   return 'just now';
+    if (s < 3600) return Math.floor(s/60) + 'm ago';
+    if (s < 86400) return Math.floor(s/3600) + 'h ago';
+    return Math.floor(s/86400) + 'd ago';
+  }
+
+  function updateStats() {
+    document.getElementById('stat-posts').textContent = posts.length;
+    const totalLikes = posts.reduce((a,p) => a + p.likes, 0);
+    document.getElementById('stat-likes').textContent = totalLikes;
+  }
+
+
+  document.getElementById('username-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') createProfile();
+  });
+
+  function createProfile() {
+    const raw = document.getElementById('username-input').value.trim();
+    const err = document.getElementById('setup-err');
+
+    if (!raw) { err.textContent = 'Please enter a username.'; return; }
+    if (raw.length < 3) { err.textContent = 'Username must be at least 3 characters.'; return; }
+    if (!/^[a-zA-Z0-9_.]+$/.test(raw)) { err.textContent = 'Letters, numbers, _ and . only.'; return; }
+
+    err.textContent = '';
+    username = raw;
+
+  
+    const ini = initials(username);
+    document.getElementById('profile-avatar').textContent   = ini;
+    document.getElementById('topbar-avatar').textContent    = ini;
+    document.getElementById('composer-avatar').textContent  = ini;
+    document.getElementById('profile-name').textContent     = username;
+    document.getElementById('profile-handle').textContent   = '@' + username.toLowerCase();
+    document.getElementById('topbar-name').textContent      = username;
+
+    document.getElementById('setup-screen').style.display   = 'none';
+    document.getElementById('profile-screen').style.display = 'block';
+  }
+
+  /* ── Composer ── */
+  const postInput = document.getElementById('post-input');
+  const charCount = document.getElementById('char-count');
+  const postBtn   = document.getElementById('post-btn');
+
+  postInput.addEventListener('input', () => {
+    const left = 280 - postInput.value.length;
+    charCount.textContent = left + ' left';
+    charCount.classList.toggle('warn', left < 30);
+    postBtn.disabled = postInput.value.trim().length === 0;
+  });
+
+  function submitPost() {
+    const text = postInput.value.trim();
+    if (!text) return;
+
+    const post = { id: nextId++, text, ts: Date.now(), likes: 0, liked: false };
+    posts.unshift(post);
+
+    postInput.value = '';
+    charCount.textContent = '280 left';
+    charCount.classList.remove('warn');
+    postBtn.disabled = true;
+
+    renderFeed();
+    updateStats();
+  }
+
+  
+  function renderFeed() {
+    const feed = document.getElementById('feed');
+    const empty = document.getElementById('empty-state');
+
+    if (posts.length === 0) {
+      empty.style.display = 'block';
+ 
+      feed.querySelectorAll('.post-card').forEach(el => el.remove());
+      return;
+    }
+
+    empty.style.display = 'none';
+
+    feed.querySelectorAll('.post-card').forEach(el => el.remove());
+
+    posts.forEach(post => {
+      const card = buildPostCard(post);
+      feed.appendChild(card);
+    });
+
+    updateStats();
+  }
+
+  function buildPostCard(post) {
+    const card = document.createElement('div');
+    card.className = 'post-card';
+    card.dataset.id = post.id;
+
+    card.innerHTML = `
+      <div class="post-header">
+        <div class="post-avatar">${initials(username)}</div>
+        <div class="post-meta">
+          <div class="post-username">${username}</div>
+          <div class="post-time" data-ts="${post.ts}">${timeAgo(post.ts)}</div>
+        </div>
+        <div class="post-menu">
+          <button class="menu-btn" onclick="toggleMenu(${post.id})">⋯</button>
+          <div class="dropdown" id="menu-${post.id}">
+            <div class="drop-item" onclick="editPost(${post.id})">✏️ Edit</div>
+            <div class="drop-item danger" onclick="deletePost(${post.id})">🗑 Delete</div>
+          </div>
+        </div>
+      </div>
+      <div class="post-body" id="body-${post.id}">${escHtml(post.text)}</div>
+      <div class="post-footer">
+        <button class="like-btn ${post.liked ? 'liked' : ''}" id="like-${post.id}" onclick="toggleLike(${post.id})">
+          <span class="heart">${post.liked ? '❤️' : '🤍'}</span>
+          <span>${post.likes} ${post.likes === 1 ? 'Like' : 'Likes'}</span>
+        </button>
+      </div>
+    `;
+
+    return card;
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+
+  function toggleMenu(id) {
+    const menu = document.getElementById('menu-' + id);
+    const isOpen = menu.classList.contains('open');
+    // close all
+    document.querySelectorAll('.dropdown.open').forEach(m => m.classList.remove('open'));
+    if (!isOpen) menu.classList.add('open');
+  }
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.post-menu')) {
+      document.querySelectorAll('.dropdown.open').forEach(m => m.classList.remove('open'));
+    }
+  });
+
+  
+  function deletePost(id) {
+    posts = posts.filter(p => p.id !== id);
+    renderFeed();
+  }
+
+  /* ── Edit ── */
+  function editPost(id) {
+    document.querySelectorAll('.dropdown.open').forEach(m => m.classList.remove('open'));
+
+    const post = posts.find(p => p.id === id);
+    if (!post) return;
+
+    const bodyEl = document.getElementById('body-' + id);
+
+    bodyEl.innerHTML = `
+      <textarea class="edit-area" id="edit-${id}">${escHtml(post.text)}</textarea>
+      <div class="edit-actions">
+        <button class="btn-save" onclick="saveEdit(${id})">Save</button>
+        <button class="btn-cancel" onclick="cancelEdit(${id})">Cancel</button>
+      </div>
+    `;
+
+    const ta = document.getElementById('edit-' + id);
+    ta.focus();
+    ta.selectionStart = ta.selectionEnd = ta.value.length;
+  }
+
+  function saveEdit(id) {
+    const ta = document.getElementById('edit-' + id);
+    const newText = ta.value.trim();
+    if (!newText) return;
+
+    const post = posts.find(p => p.id === id);
+    post.text = newText;
+    renderFeed();
+  }
+
+  function cancelEdit(id) {
+    const post = posts.find(p => p.id === id);
+    document.getElementById('body-' + id).innerHTML = escHtml(post.text);
+  }
+
+  /* ── Like ── */
+  function toggleLike(id) {
+    const post = posts.find(p => p.id === id);
+    if (!post) return;
+
+    post.liked = !post.liked;
+    post.likes += post.liked ? 1 : -1;
+
+    const btn = document.getElementById('like-' + id);
+    btn.classList.toggle('liked', post.liked);
+    btn.innerHTML = `
+      <span class="heart">${post.liked ? '❤️' : '🤍'}</span>
+      <span>${post.likes} ${post.likes === 1 ? 'Like' : 'Likes'}</span>
+    `;
+  
+    btn.classList.remove('liked');
+    void btn.offsetWidth;
+    if (post.liked) btn.classList.add('liked');
+
+    updateStats();
+  }
+
+  
+  function logout() {
+    username = '';
+    posts    = [];
+    nextId   = 1;
+    document.getElementById('username-input').value = '';
+    document.getElementById('setup-screen').style.display   = 'flex';
+    document.getElementById('profile-screen').style.display = 'none';
+    document.getElementById('feed').querySelectorAll('.post-card').forEach(el => el.remove());
+    document.getElementById('empty-state').style.display = 'block';
+    updateStats();
+  }
+
+  /* ── Live timestamp refresh ── */
+  setInterval(() => {
+    document.querySelectorAll('.post-time[data-ts]').forEach(el => {
+      el.textContent = timeAgo(+el.dataset.ts);
+    });
+  }, 30000);
+</script>
+</body>
+</html>

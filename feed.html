@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Richfield connect</title>
+        <link rel="stylesheet" href="richfield3 connect.css">
+        <style>
+            .activity-icon {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 16px;
+            }
+            .activity-icon div {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                cursor: pointer;
+                user-select: none;
+            }
+            .activity-icon div img {
+                width: 20px;
+                height: 20px;
+            }
+            .activity-icon div span.count {
+                font-size: 14px;
+            }
+            .activity-icon div.liked img {
+                filter: hue-rotate(200deg) saturate(2);
+            }
+            body {
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                max-width: 680px;
+            }
+            .main-content {
+                width: 100%;
+            }
+        </style>
+</head>
+
+
+    <body>
+        <div class="container">
+            
+                <div class="main-content">
+                    
+                    <div class = "story-gallery">
+                        <div class = "story story1 ">
+                            <img src="images/upload.png" alt="Upload">
+                            <p>story</p>
+                        </div>
+                         <div class = "story story2">
+                            <img src="images/member-1.png" alt="Upload">
+                            <p>Esther</p>
+                        </div>
+                         <div class = "story story3">
+                            <img src="images/member-3.png" alt="Upload">
+                            <p>Mitchelle</p>
+                        </div>
+                         <div class = "story story4">
+                            <img src="images/member-2.png" alt="Upload">
+                            <p>Kgosi</p>
+                        </div>
+                         <div class = "story story5">
+                            <img src="images/member-4.png" alt="Upload">
+                            <p>Maanda</p>
+                        </div>
+                    </div>
+
+                    <div class="write-post.container">
+                        <div class="user-profile">
+                            <img src="images/member-3.png" alt="User Profile">
+                            <div>
+                                <p>Nthabiseng</p>
+                                <small>public <i class = "fas fa caret-down"></i></small>
+                            </div>
+                        </div>
+
+                        <div class = "post-input-container">
+                            <textarea rows="3" placeholder="whats on your mind, Nthabiseng? "></textarea> 
+                        
+                            <div class ="add-post-link">
+                               <a href="#"><img src="images/live-video.png">live video</a>
+                                <a href="#"><img src="images/photo.png">photo/video</a>
+                                <a href="#"><img src="images/feeling.png">activity</a>
+                            </div>
+
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="post-container">
+                         <div class="user-profile">
+                            <img src="images/member-2.png" alt="User Profile">
+                            <div>
+                                <p>jeff</p>
+                                <span>28 May 2026 00:00 SAST</span>
+                            </div>
+                        </div>
+                        <p class="post-text"> Hi guys hows your day so far</p>
+                            <img src="images/feed-image-1.png" class="post-img">
+
+                            <div class="post-row">
+                                <div class="activity-icon">
+                                    <div class="like-btn liked" title="Like"><img src="images/like-blue.png"><span class="count">120</span></div>
+                                    <div class="comment-btn" title="Comment"><img src="images/comments.png"><span class="count">125</span></div>
+                                    <div class="share-btn" title="Share"><img src="images/share.png"><span class="count">20</span></div>
+                                </div>
+                                    <div class="post-prfile-icon">
+
+                                    </div>
+                            </div>
+                            
+                    </div>
+                     <div class="post-container">
+                         <div class="user-profile">
+                            <img src="images/member-9.png" alt="User Profile">
+                            <div>
+                                <p>lucas</p>
+                                <span>28 May 2026 01:00 SAST</span>
+                            </div>
+                        </div>
+                        <p class="post-text"> I just qualified for my exams</p>
+                            <img src="images/feed-image-2.png" class="post-img">
+
+                            <div class="post-row">
+                                <div class="activity-icon">
+                                    <div class="like-btn" title="Like"><img src="images/like.png"><span class="count">120</span></div>
+                                    <div class="comment-btn" title="Comment"><img src="images/comments.png"><span class="count">125</span></div>
+                                    <div class="share-btn" title="Share"><img src="images/share.png"><span class="count">20</span></div>
+
+                                    <div class="post-prfile-icon">
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+
+                      <div class="post-container">
+                         <div class="user-profile">
+                            <img src="images/profile-pic.png" alt="User Profile">
+                            <div>
+                                <p>sylcus</p>
+                                <span>28 May 2026 01:00 SAST</span>
+                            </div>
+                        </div>
+                        <p class="post-text">What a great day for hiking</p>
+                            <img src="images/feed-image-4.png" class="post-img">
+
+                            <div class="post-row">
+                                <div class="activity-icon">
+                                    <div class="like-btn" title="Like"><img src="images/like.png"><span class="count">10</span></div>
+                                    <div class="comment-btn" title="Comment"><img src="images/comments.png"><span class="count">15</span></div>
+                                    <div class="share-btn" title="Share"><img src="images/share.png"><span class="count">5</span></div>
+
+                                    <div class="post-prfile-icon">
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                      <div class="post-container">
+                         <div class="user-profile">
+                            <img src="images/profile-pic.png" alt="User Profile">
+                            <div>
+                                <p>Thato</p>
+                                <span>28 May 2026 01:00 SAST</span>
+                            </div>
+                        </div>
+                        <p class="post-text"> 30 days to world cup</p>
+                            <img src="images/feed-image-5.png" class="post-img">
+
+                            <div class="post-row">
+                                <div class="activity-icon">
+                                    <div class="like-btn liked" title="Like"><img src="images/like-blue.png"><span class="count">12</span></div>
+                                    <div class="comment-btn" title="Comment"><img src="images/comments.png"><span class="count">25</span></div>
+                                    <div class="share-btn" title="Share"><img src="images/share.png"><span class="count">2</span></div>
+
+                                    <div class="post-prfile-icon">
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                      <div class="post-container">
+                         <div class="user-profile">
+                            <img src="images/profile-pic.png" alt="User Profile">
+                            <div>
+                                <p>Greg</p>
+                                <span>28 May 2026 01:00 SAST</span>
+                            </div>
+                        </div>
+                        <p class="post-text"> <span>@Nthabiseng kok</span> has been a great asset to our community.</p>
+                            <img src="images/feed-image-3.png" class="post-img">
+
+                            <div class="post-row">
+                                <div class="activity-icon">
+                                    <div class="like-btn" title="Like"><img src="images/like.png"><span class="count">120</span></div>
+                                    <div class="comment-btn" title="Comment"><img src="images/comments.png"><span class="count">125</span></div>
+                                    <div class="share-btn" title="Share"><img src="images/share.png"><span class="count">20</span></div>
+
+                                    <div class="post-prfile-icon">
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+
+                </div>
+                
+        </div>
+    <script>
+        document.querySelectorAll('.like-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var count = btn.querySelector('.count');
+                var n = parseInt(count.textContent);
+                if (btn.classList.contains('liked')) {
+                    btn.classList.remove('liked');
+                    btn.querySelector('img').src = 'images/like.png';
+                    count.textContent = n - 1;
+                } else {
+                    btn.classList.add('liked');
+                    btn.querySelector('img').src = 'images/like-blue.png';
+                    count.textContent = n + 1;
+                }
+            });
+        });
+
+        document.querySelectorAll('.comment-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var post = btn.closest('.post-container');
+                var existing = post.querySelector('.comment-box');
+                if (existing) { existing.remove(); return; }
+                var box = document.createElement('div');
+                box.className = 'comment-box';
+                box.style.cssText = 'margin-top:10px; display:flex; gap:8px;';
+                box.innerHTML = '<input type="text" placeholder="Write a comment..." style="flex:1; padding:6px 10px; border:1px solid #ccc; border-radius:20px; font-size:14px;">'
+                              + '<button style="padding:6px 14px; background:#1877f2; color:#fff; border:none; border-radius:20px; cursor:pointer; font-size:14px;">Post</button>';
+                post.appendChild(box);
+                box.querySelector('input').focus();
+                box.querySelector('button').addEventListener('click', function() {
+                    var val = box.querySelector('input').value.trim();
+                    if (!val) return;
+                    var count = btn.querySelector('.count');
+                    count.textContent = parseInt(count.textContent) + 1;
+                    box.querySelector('input').value = '';
+                    box.remove();
+                });
+            });
+        });
+
+        document.querySelectorAll('.share-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var count = btn.querySelector('.count');
+                count.textContent = parseInt(count.textContent) + 1;
+                var msg = document.createElement('span');
+                msg.textContent = ' Shared!';
+                msg.style.cssText = 'font-size:13px; color:#1877f2; margin-left:4px;';
+                btn.appendChild(msg);
+                setTimeout(function() { msg.remove(); }, 1500);
+            });
+        });
+    </script>
+    </body>
+</html>
